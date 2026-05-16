@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>不见桃花不见秋 | 个人信息技术网</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+		a{
+			text-decoration: none;
+		}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:"思源宋体",serif;scroll-behavior:smooth;}
+        :root{
+            --c1:#bfa9b8;
+            --c2:#b0a2c2;
+            --bg:#f7f2f5;
+            --text:#42323c;
+            --light:#fff;
+            --shadow:0 8px 30px rgba(191,169,184,0.15);
+            --trans:all 0.4s cubic-bezier(0.25,0.8,0.25,1);
+        }
+        body{background:var(--bg);color:var(--text);line-height:1.8;letter-spacing:1px;overflow-x:hidden;}
+        .container{width:100%;max-width:1920px;margin:0 auto;}
+        .wrap{width:90%;max-width:1400px;margin:0 auto;}
+
+        /* 折叠导航核心 */
+        .top-nav{width:100%;position:fixed;top:0;left:0;z-index:999;transition:var(--trans);padding:1.2rem 0;}
+        .top-nav.active{background:rgba(247,242,245,0.95);backdrop-filter:blur(10px);box-shadow:var(--shadow);}
+        .nav-box{display:flex;justify-content:space-between;align-items:center;position:relative;}
+        .hamburger{display:none;width:40px;height:30px;cursor:pointer;position:relative;z-index:100;}
+        .hamburger span{display:block;width:100%;height:3px;background:var(--text);border-radius:3px;margin:6px 0;transition:var(--trans);}
+        .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(6px,6px);}
+        .hamburger.active span:nth-child(2){opacity:0;}
+        .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px);}
+        .nav-inner{display:flex;gap:2rem;transition:var(--trans);}
+        .nav-item{color:var(--text);text-decoration:none;font-size:16px;padding:8px 20px;border-radius:30px;transition:var(--trans);white-space:nowrap;}
+        .nav-item:hover,.nav-item.active{background:var(--c1);color:#fff;}
+
+        /* 移动端折叠样式 */
+        @media (max-width:992px){
+            .hamburger{display:block;}
+            .nav-inner{
+                position:absolute;
+                top:100%;
+                left:0;
+                width:100%;
+                flex-direction:column;
+                background:rgba(255, 170, 0, 1.0);
+				border-radius: 25px;
+                backdrop-filter:blur(10px);
+                padding:20px 0;
+                gap:15px;
+                opacity:0;
+                visibility:hidden;
+                transform:translateY(-10px);
+            }
+            .nav-inner.show{
+                opacity:1;
+                visibility:visible;
+                transform:translateY(0);
+            }
+            .nav-item{text-align:center;width:100%;}
+        }
+
+        /* 全屏轮播 */
+        .full-swiper{width:100%;height:100vh;overflow:hidden;position:relative;margin-top:0;}
+        .swiper-box{display:flex;height:100%;transition:0.6s ease;}
+        .slide-item{min-width:100%;height:100%;background-image: url(bi.jpg);  background-size: cover; /* 修改为cover，使图片铺满满屏 */
+                 background-attachment: fixed; /* 可选，使背景图片固定不随页面滚动 */
+                 margin: 0; /* 去除默认边距 */
+                 padding: 0; /* 去除默认内边距 */display:flex;flex-direction:column;align-items:center;justify-content:center;}
+        .slide-item h1{font-size:4rem;color:#6b505e;margin-bottom:20px;opacity:0;transform:translateY(40px);transition:var(--trans);}
+        .slide-item p{font-size:1.3rem;color:#7c6571;margin-bottom:40px;opacity:0;transform:translateY(40px);transition:var(--trans);transition-delay:0.2s;}
+        .slide-item.show h1,.slide-item.show p{opacity:1;transform:translateY(0);}
+        .swiper-prev,.swiper-next{position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;border:none;background:rgba(255,255,255,0.25);color:#ff5500;font-size:20px;cursor:pointer;z-index:10;transition:var(--trans);}
+        .swiper-prev{left:3%;}
+        .swiper-next{right:3%;}
+        .swiper-prev:hover,.swiper-next:hover{background:rgba(255,255,255,0.5);}
+        .swiper-dots{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;gap:12px;}
+        .dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:var(--trans);}
+        .dot.active{background:#fff;transform:scale(1.3);}
+
+        /* 通用区块 */
+        .section{width:100%;padding:100px 0;opacity:0;transform:translateY(60px);transition:var(--trans);background:linear-gradient(150deg,#ffaa7f,#ffff7f);}
+        .section.show{opacity:1;transform:translateY(0);}
+        .sec-title{text-align:center;font-size:2.4rem;color:#6b505e;margin-bottom:60px;position:relative;}
+        .sec-title::after{content:"";width:80px;height:2px;background:var(--c1);position:absolute;left:50%;bottom:-15px;transform:translateX(-50%);}
+
+        /* 服务区 */
+        .service-row{display:grid;grid-template-columns:repeat(4,1fr);gap:35px;}
+        .service-card{background:#fff;padding:45px 30px;border-radius:24px;border:1px solid rgba(191,169,184,0.15);transition:var(--trans);position:relative;overflow:hidden;}
+        .service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--c1),var(--c2));opacity:0;transition:var(--trans);}
+        .service-card:hover::before{opacity:0.08;}
+        .service-card:hover{transform:translateY(-10px);box-shadow:var(--shadow);}
+        .service-card i{font-size:2.5rem;color:var(--c1);margin-bottom:20px;position:relative;z-index:1;transition:var(--trans);}
+        .service-card:hover i{transform:scale(1.2);}
+        .service-card h3{font-size:1.4rem;margin-bottom:15px;position:relative;z-index:1;}
+        .service-card p{position:relative;z-index:1;line-height:1.9;}
+
+        /* 关于分栏 */
+        .about-row{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+        .about-pic{width:100%;height:450px;border-radius:24px;background-image: url(gy.png);  background-size: cover; /* 修改为cover，使图片铺满满屏 */
+                 background-attachment: fixed; /* 可选，使背景图片固定不随页面滚动 */
+                 margin: 0; /* 去除默认边距 */
+                 padding: 0; /* 去除默认内边距 */overflow:hidden;position:relative;}
+        .about-pic:hover{transform:scale(1.02);}
+        .about-text h3{font-size:1.8rem;margin-bottom:25px;color:#6b505e;}
+        .about-text p{margin-bottom:15px;font-size:16px;}
+
+        /* 技能标签 */
+        .skill-row{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;}
+        .skill-tag{padding:12px 30px;background:rgba(191,169,184,0.15);border-radius:35px;font-size:16px;transition:var(--trans);cursor:default;}
+        .skill-tag:hover{background:var(--c1);color:#fff;transform:translateY(-4px) scale(1.05);}
+
+        /* 案例区 */
+        .case-row{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;}
+        .case-item{color: #ffff7f);height:320px;border-radius:24px;background:linear-gradient(145deg,var(--c2),var(--c1));overflow:hidden;transition:var(--trans);position:relative;font-size: 30px;flex-direction: column;justify-content: flex-end;display: flex;}
+        .case-item:hover{transform:translateY(-8px);}
+        
+        .case-item:hover::after{opacity:1;}
+
+        /* 联系区 */
+        .contact-box{width:100%;padding:60px;background:#fff;border-radius:24px;text-align:center;box-shadow:var(--shadow);}
+        .contact-info{margin-top:30px;font-size:17px;line-height:2.5;}
+        .contact-info i{color:var(--c1);margin-right:12px;width:22px;text-align:center;}
+
+        /* 页脚 */
+        .footer{width:100%;background:linear-gradient(135deg,var(--c1),var(--c2));padding:60px 0;color:#fff;margin-top:50px;}
+        .footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;}
+        .footer-col h4{font-size:18px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.3);}
+        .footer-col a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;margin:12px 0;transition:var(--trans);display:flex;align-items:center;gap:10px;}
+        .footer-col a i{width:18px;text-align:center;}
+        .footer-col a:hover{color:#fff;padding-left:5px;}
+        .copyright{text-align:center;padding-top:40px;margin-top:40px;border-top:1px solid rgba(255,255,255,0.2);}
+
+        /* 响应式 */
+        @media(max-width:1024px){
+            .service-row,.footer-row{grid-template-columns:repeat(2,1fr);}
+            .about-row,.case-row{grid-template-columns:1fr;}
+            .slide-item h1{font-size:2.8rem;}
+        }
+        @media(max-width:768px){
+            .service-row,.footer-row{grid-template-columns:1fr;}
+        }
+    </style>
+</head>
+<body class="container">
+<header class="top-nav" id="topNav">
+    <div class="wrap nav-box">
+        <div class="hamburger" id="ham">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav class="nav-inner" id="menu">
+            <a href="#banner" class="nav-item active">首页</a>
+            <a href="#service" class="nav-item">服务</a>
+            <a href="#about" class="nav-item">关于</a>
+            <a href="#case" class="nav-item">案例</a>
+            <a href="#skill" class="nav-item">技能</a>
+            <a href="#contact" class="nav-item">联系</a>
+        </nav>
+    </div>
+</header>
+
+<section class="full-swiper" id="banner">
+    <div class="swiper-box" id="swiperBox">
+        <div class="slide-item show">
+            <h1>不见桃花不见秋</h1>
+            <p>个人信息技术 · 一站式技术</p>
+        </div>
+        <div class="slide-item">
+            <h1>程序开发 运维保障</h1>
+            <p>网页搭建｜服务器运维｜故障排查</p>
+        </div>
+        <div class="slide-item">
+            <h1>极简高级 浪漫视觉</h1>
+            <p>专属页面设计 细腻交互体验</p>
+        </div>
+    </div>
+    <button class="swiper-prev"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="swiper-next"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="swiper-dots">
+        <span class="dot active" data-i="0"></span>
+        <span class="dot" data-i="1"></span>
+        <span class="dot" data-i="2"></span>
+    </div>
+</section>
+
+<section class="section" id="service">
+    <div class="wrap">
+        <h2 class="sec-title">核心服务</h2>
+        <div class="service-row">
+            <div class="service-card"><i class="fa-solid fa-code"></i><h3>网页定制开发</h3><p>个人站、展示站、官网定制，高级浪漫风格专属设计</p></div>
+            <div class="service-card"><i class="fa-solid fa-server"></i><h3>服务器运维</h3><p>环境部署、安全防护、漏洞修复、站点稳定维护</p></div>
+            <div class="service-card"><i class="fa-solid fa-palette"></i><h3>前端视觉优化</h3><p>动效制作、配色调校、全站响应式适配美化</p></div>
+            <div class="service-card"><i class="fa-solid fa-wrench"></i><h3>IT问题解决</h3><p>网络、设备、程序报错一站式排查处理</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="about">
+    <div class="wrap">
+        <h2 class="sec-title">关于我们</h2>
+        <div class="about-row">
+            <div class="about-pic"></div>
+            <div class="about-text">
+                <h3>不见桃花不见秋 · 个人技术</h3>
+                <p>信息技术领域，专注网页开发、服务器运维、前端与故障调试。</p>
+                <p>秉持极简高级设计理念，融合温柔浪漫视觉风格，打磨每一处交互与布局细节。</p>
+                <p>专业靠谱、细致耐心，为需求提供完整落地技术解决方案。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="case">
+    <div class="wrap">
+        <h2 class="sec-title">作品案例</h2>
+		<center>
+        <div class="case-row">
+          <a href="https://lcy20.netlify.app">
+          			   <div style="background-image: url(https://lcy20.netlify.app/app.jpg);background-size: cover;  background-attachment: fixed;margin: 0;  padding: 0;" class="case-item">归档-时光卷轴</div>
+          </a> 
+          <a href="https://zwcx.netlify.app">
+          			   <div style="background-image: url(https://zwcx.netlify.app/zwcx/xzy/app_icon.png);background-size: cover;  background-attachment: fixed;margin: 0;  padding: 0;" class="case-item">追吻辰星软件库</div>
+          </a> 
+         <a href="https://lcy20.netlify.app/cwcf/">
+         			   <div style="background-image: url(https://lcy20.netlify.app/cwcf/favicon.png);background-size: cover;  background-attachment: fixed;margin: 0;  padding: 0;" class="case-item">川味厨房</div>
+         </a> 
+         <a href="https://lcy20.netlify.app/xfwd/">
+         			   <div style="background-image: url(https://lcy20.netlify.app/xfwd/appicon.jpg);background-size: cover;  background-attachment: fixed;margin: 0;  padding: 0;" class="case-item">刑法文典</div>
+         </a> 
+         
+        </div>
+		</center>
+    </div>
+</section>
+
+<section class="section" id="skill">
+    <div class="wrap">
+        <h2 class="sec-title">专业技能</h2>
+        <div class="skill-row">
+            <span class="skill-tag">HTML5</span>
+            <span class="skill-tag">CSS3</span>
+            <span class="skill-tag">前端开发</span>
+            <span class="skill-tag">服务器运维</span>
+            <span class="skill-tag">站点搭建</span>
+            <span class="skill-tag">动效交互</span>
+            <span class="skill-tag">视觉设计</span>
+            <span class="skill-tag">故障排查</span>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="contact">
+    <div class="wrap">
+        <h2 class="sec-title">联系咨询</h2>
+        <div class="contact-box">
+            <p>以诚相待，静待合作问询</p>
+            <div class="contact-info">
+                <p><i class="fa-solid fa-envelope"></i> 邮箱：1837601513@qq.com</p>
+                <p><i class="fa-brands fa-weixin"></i> 微信：ALCY-ALCY</p>
+                <p><i class="fa-solid fa-clock"></i> 服务时间：全天在线</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="wrap footer-row">
+        <div class="footer-col"><h4>关于本站</h4><a href="#">平台介绍</a><a href="#">服务理念</a><a href="#">发展历程</a></div>
+        <div class="footer-col"><h4>业务服务</h4><a href="#">网页定制</a><a href="#">运维部署</a><a href="#">技术调试</a></div>
+        <div class="footer-col"><h4>帮助中心</h4><a href="#">常见问题</a><a href="#">服务流程</a><a href="#">收费说明</a></div>
+        <div class="footer-col"><h4>联系方式</h4><a href="#"><i class="fa-brands fa-qq"></i> 在线咨询</a><a href="#"><i class="fa-brands fa-weixin"></i> 私信沟通</a><a href="#"><i class="fa-solid fa-message"></i> 技术对接</a></div>
+    </div>
+    <div class="copyright wrap">不见桃花不见秋 © 2026 个人信息技术 版权所有</div>
+</footer>
+
+<script>
+const ham = document.getElementById('ham');
+const menu = document.getElementById('menu');
+ham.onclick = ()=>{
+    ham.classList.toggle('active');
+    menu.classList.toggle('show');
+}
+document.querySelectorAll('.nav-item').forEach(item=>{
+    item.onclick = ()=>{
+        ham.classList.remove('active');
+        menu.classList.remove('show');
+    }
+})
+
+const topNav = document.getElementById('topNav');
+window.addEventListener('scroll',()=>topNav.classList.toggle('active',scrollY>100))
+
+let cur = 0;
+const swiperBox = document.getElementById('swiperBox');
+const dots = document.querySelectorAll('.dot');
+const slides = document.querySelectorAll('.slide-item');
+const prev = document.querySelector('.swiper-prev');
+const next = document.querySelector('.swiper-next');
+const total = slides.length;
+function runSwiper(){
+    swiperBox.style.transform = `translateX(-${cur*100}%)`;
+    dots.forEach((d,i)=>d.classList.toggle('active',i===cur));
+    slides.forEach((s,i)=>s.classList.toggle('show',i===cur));
+}
+function nextS(){cur=(cur+1)%total;runSwiper()}
+function prevS(){cur=(cur-1+total)%total;runSwiper()}
+next.onclick=nextS;prev.onclick=prevS;
+dots.forEach(d=>d.onclick=()=>{cur=+d.dataset.i;runSwiper()})
+let timer=setInterval(nextS,4000);
+document.querySelector('.full-swiper').onmouseenter=()=>clearInterval(timer)
+document.querySelector('.full-swiper').onmouseleave=()=>timer=setInterval(nextS,4000)
+
+const sections = document.querySelectorAll('.section');
+const obs = new IntersectionObserver(e=>{
+    e.forEach(item=>item.isIntersecting&&item.target.classList.add('show'))
+},{threshold:0.12})
+sections.forEach(s=>obs.observe(s))
+
+const navs = document.querySelectorAll('.nav-item');
+window.addEventListener('scroll',()=>{
+    let sTop = scrollY;
+    document.querySelectorAll('section[id]').forEach(sec=>{
+        let oTop = sec.offsetTop-150;
+        let h = sec.offsetHeight;
+        let id = sec.id;
+        navs.forEach(a=>{
+            a.classList.toggle('active',a.getAttribute('href')===`#${id}`&&sTop>=oTop&&sTop<oTop+h)
+        })
+    })
+})
+</script>
+</body>
+</html>
