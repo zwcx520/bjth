@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运维部署 - 不见桃花不见秋</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:"思源宋体",serif;scroll-behavior:smooth;}
+        :root{
+            --c1:#bfa9b8;
+            --c2:#b0a2c2;
+            --bg:#f7f2f5;
+            --text:#42323c;
+            --light:#fff;
+            --shadow:0 8px 30px rgba(191,169,184,0.15);
+            --trans:all 0.4s cubic-bezier(0.25,0.8,0.25,1);
+        }
+        body{background:var(--bg);color:var(--text);line-height:1.8;letter-spacing:1px;overflow-x:hidden;}
+        .container{width:100%;max-width:1920px;margin:0 auto;}
+        .wrap{width:90%;max-width:1400px;margin:0 auto;}
+
+        .top-nav{width:100%;position:fixed;top:0;left:0;z-index:999;transition:var(--trans);padding:1.2rem 0;background:rgba(247,242,245,0.95);backdrop-filter:blur(10px);box-shadow:var(--shadow);}
+        .nav-box{display:flex;justify-content:space-between;align-items:center;position:relative;}
+        .hamburger{display:none;width:40px;height:30px;cursor:pointer;position:relative;z-index:100;}
+        .hamburger span{display:block;width:100%;height:3px;background:var(--text);border-radius:3px;margin:6px 0;transition:var(--trans);}
+        .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(6px,6px);}
+        .hamburger.active span:nth-child(2){opacity:0;}
+        .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px);}
+        .nav-inner{display:flex;gap:2rem;transition:var(--trans);}
+        .nav-item{color:var(--text);text-decoration:none;font-size:16px;padding:8px 20px;border-radius:30px;transition:var(--trans);white-space:nowrap;}
+        .nav-item:hover,.nav-item.active{background:var(--c1);color:#fff;}
+
+        @media (max-width:992px){
+            .hamburger{display:block;}
+            .nav-inner{position:absolute;top:100%;left:0;width:100%;flex-direction:column;background:rgba(255,170,0,1);border-radius:25px;backdrop-filter:blur(10px);padding:20px 0;gap:15px;opacity:0;visibility:hidden;transform:translateY(-10px);}
+            .nav-inner.show{opacity:1;visibility:visible;transform:translateY(0);}
+            .nav-item{text-align:center;width:100%;}
+        }
+
+        .page-header{width:100%;padding:160px 0 80px;background:linear-gradient(135deg,var(--c1),var(--c2));text-align:center;color:#fff;}
+        .page-header h1{font-size:2.8rem;margin-bottom:15px;}
+        .page-header p{font-size:1.1rem;opacity:0.9;}
+
+        .page-content{padding:80px 0;}
+        .content-card{background:#fff;border-radius:24px;padding:60px;box-shadow:var(--shadow);margin-bottom:40px;}
+        .content-card h2{font-size:1.8rem;color:#6b505e;margin-bottom:25px;padding-bottom:15px;border-bottom:2px solid var(--c1);}
+        .content-card h3{font-size:1.4rem;color:#6b505e;margin:30px 0 15px;}
+        .content-card p{margin-bottom:15px;font-size:16px;}
+        .content-card ul{margin:15px 0 25px 30px;}
+        .content-card li{margin-bottom:10px;position:relative;padding-left:20px;}
+        .content-card li::before{content:"❀";position:absolute;left:-5px;color:var(--c1);}
+
+        .service-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:30px;margin-top:30px;}
+        .service-box{background:linear-gradient(135deg,#f7f2f5,#fff);padding:30px;border-radius:20px;transition:var(--trans);}
+        .service-box:hover{transform:translateY(-5px);box-shadow:var(--shadow);}
+        .service-box i{font-size:2rem;color:var(--c1);margin-bottom:15px;}
+        .service-box h4{font-size:1.2rem;color:#6b505e;margin-bottom:10px;}
+
+        .price-box{background:linear-gradient(135deg,var(--c1),var(--c2));padding:40px;border-radius:20px;color:#fff;text-align:center;margin-top:30px;}
+        .price-box h3{font-size:1.5rem;margin-bottom:15px;}
+        .price-box p{margin-bottom:10px;opacity:0.9;}
+        .price-box .price{font-size:2.5rem;font-weight:bold;margin:15px 0;}
+
+        @media(max-width:768px){
+            .service-grid{grid-template-columns:1fr;}
+            .content-card{padding:30px 20px;}
+        }
+
+        .footer{width:100%;background:linear-gradient(135deg,var(--c1),var(--c2));padding:60px 0;color:#fff;margin-top:50px;}
+        .footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;}
+        .footer-col h4{font-size:18px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.3);}
+        .footer-col a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;margin:12px 0;transition:var(--trans);display:flex;align-items:center;gap:10px;}
+        .footer-col a i{width:18px;text-align:center;}
+        .footer-col a:hover{color:#fff;padding-left:5px;}
+        .copyright{text-align:center;padding-top:40px;margin-top:40px;border-top:1px solid rgba(255,255,255,0.2);}
+        @media(max-width:1024px){.footer-row{grid-template-columns:repeat(2,1fr);}}
+        @media(max-width:768px){.footer-row{grid-template-columns:1fr;}}
+    </style>
+</head>
+<body class="container">
+<header class="top-nav">
+    <div class="wrap nav-box">
+        <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
+        <nav class="nav-inner" id="menu">
+            <a href="index.html" class="nav-item">首页</a>
+            <a href="index.html#service" class="nav-item">服务</a>
+            <a href="index.html#about" class="nav-item">关于</a>
+            <a href="index.html#case" class="nav-item">案例</a>
+            <a href="index.html#skill" class="nav-item">技能</a>
+            <a href="index.html#contact" class="nav-item">联系</a>
+        </nav>
+    </div>
+</header>
+
+<section class="page-header">
+    <div class="wrap">
+        <h1>运维部署</h1>
+        <p>服务器环境搭建 · 安全防护 · 稳定运维</p>
+    </div>
+</section>
+
+<section class="page-content">
+    <div class="wrap">
+        <div class="content-card">
+            <h2>服务介绍</h2>
+            <p>网站做好后，如何让它稳定运行在服务器上？这需要专业的运维知识。我提供服务器环境配置、网站部署、安全防护、监控维护等一站式运维服务。</p>
+            <p>无论是新手上路还是遇到运维难题，我都能帮您轻松搞定，让您的网站安全稳定地运行在互联网上。</p>
+            
+            <div class="service-grid">
+                <div class="service-box">
+                    <i class="fa-solid fa-server"></i>
+                    <h4>环境部署</h4>
+                    <p>Web服务器搭建、数据库配置、编程环境安装</p>
+                </div>
+                <div class="service-box">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <h4>网站部署</h4>
+                    <p>静态网站托管、动态站点上线、域名解析绑定</p>
+                </div>
+                <div class="service-box">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h4>安全防护</h4>
+                    <p>防火墙配置、SSL证书部署、漏洞修复防护</p>
+                </div>
+                <div class="service-box">
+                    <i class="fa-solid fa-clock"></i>
+                    <h4>监控维护</h4>
+                    <p>站点监控、备份策略、故障快速响应</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2>服务详情</h2>
+            <h3>环境部署服务</h3>
+            <ul>
+                <li>Nginx/Apache 服务器安装与配置</li>
+                <li>Node.js/PHP/Python 等环境搭建</li>
+                <li>MySQL/MongoDB 等数据库安装配置</li>
+                <li>SSL证书申请与HTTPS配置</li>
+                <li>服务器性能优化与参数调优</li>
+            </ul>
+            
+            <h3>网站部署服务</h3>
+            <ul>
+                <li>静态网站部署（GitHub Pages、Netlify等）</li>
+                <li>动态网站项目上线</li>
+                <li>域名购买指导与解析配置</li>
+                <li>CDN加速配置</li>
+                <li>网站迁移与数据搬迁</li>
+            </ul>
+            
+            <h3>安全维护服务</h3>
+            <ul>
+                <li>服务器安全基线配置</li>
+                <li>恶意访问拦截与防护</li>
+                <li>数据备份方案设计与实施</li>
+                <li>系统漏洞检测与修复</li>
+                <li>应急响应与故障恢复</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h2>常见场景</h2>
+            <ul>
+                <li><strong>新手建站</strong> — 购买服务器后不知如何配置环境、绑定域名</li>
+                <li><strong>网站打不开</strong> — 服务器报错、数据库连接失败、权限问题</li>
+                <li><strong>速度优化</strong> — 网站加载慢，需要CDN、缓存等优化</li>
+                <li><strong>安全加固</strong> — 收到攻击警告，需要加强防护</li>
+                <li><strong>想要迁移</strong> — 网站需要换服务器，数据需要搬迁</li>
+                <li><strong>长期托管</strong> — 希望有人帮忙打理服务器，省心省力</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h2>收费说明</h2>
+            <div class="price-box">
+                <h3>单次服务</h3>
+                <p>环境部署 / 网站上线 / 故障排查</p>
+                <div class="price">￥100 起</div>
+                <p>根据具体难度和工作量定价</p>
+            </div>
+            <p style="margin-top:20px;font-size:14px;color:#888;">* 长期托管服务可协商包月/包年方案，更优惠</p>
+        </div>
+
+        <div class="content-card">
+            <h2>联系我</h2>
+            <p>遇到运维问题不用慌，欢迎随时联系：</p>
+            <ul>
+                <li><i class="fa-solid fa-envelope" style="width:20px;color:var(--c1);"></i> 邮箱：1837601513@qq.com</li>
+                <li><i class="fa-brands fa-weixin" style="width:20px;color:var(--c1);"></i> 微信：ALCY-ALCY</li>
+                <li><i class="fa-brands fa-qq" style="width:20px;color:var(--c1);"></i> QQ：1837601513</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="wrap footer-row">
+        <div class="footer-col"><h4>关于本站</h4><a href="about.html">平台介绍</a><a href="philosophy.html">服务理念</a><a href="history.html">发展历程</a></div>
+        <div class="footer-col"><h4>业务服务</h4><a href="web-custom.html">网页定制</a><a href="ops.html">运维部署</a><a href="debug.html">技术调试</a></div>
+        <div class="footer-col"><h4>帮助中心</h4><a href="faq.html">常见问题</a><a href="process.html">服务流程</a><a href="pricing.html">收费说明</a></div>
+        <div class="footer-col"><h4>联系方式</h4><a href="consult.html"><i class="fa-brands fa-qq"></i> 在线咨询</a><a href="message.html"><i class="fa-brands fa-weixin"></i> 私信沟通</a><a href="docking.html"><i class="fa-solid fa-message"></i> 技术对接</a></div>
+    </div>
+    <div class="copyright wrap">不见桃花不见秋 © 2026 个人信息技术 版权所有</div>
+</footer>
+
+<script>
+const ham = document.getElementById('ham');
+const menu = document.getElementById('menu');
+ham.onclick = ()=>{ham.classList.toggle('active');menu.classList.toggle('show');}
+document.querySelectorAll('.nav-item').forEach(item=>{
+    item.onclick = ()=>{ham.classList.remove('active');menu.classList.remove('show');}
+})
+</script>
+</body>
+</html>
