@@ -6,176 +6,205 @@
     <title>常见问题 - 不见桃花不见秋</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        a{text-decoration:none;}
         *{margin:0;padding:0;box-sizing:border-box;font-family:"思源宋体",serif;scroll-behavior:smooth;}
-        :root{
-            --c1:#bfa9b8;
-            --c2:#b0a2c2;
-            --bg:#f7f2f5;
-            --text:#42323c;
-            --light:#fff;
-            --shadow:0 8px 30px rgba(191,169,184,0.15);
-            --trans:all 0.4s cubic-bezier(0.25,0.8,0.25,1);
-        }
+        :root{--c1:#bfa9b8;--c2:#b0a2c2;--bg:#f7f2f5;--text:#42323c;--ink:#6b505e;--light:#fff;--shadow:0 8px 30px rgba(191,169,184,0.18);--trans:all 0.4s cubic-bezier(0.25,0.8,0.25,1);}
         body{background:var(--bg);color:var(--text);line-height:1.8;letter-spacing:1px;overflow-x:hidden;}
-        .container{width:100%;max-width:1920px;margin:0 auto;}
         .wrap{width:90%;max-width:1400px;margin:0 auto;}
 
-        .top-nav{width:100%;position:fixed;top:0;left:0;z-index:999;transition:var(--trans);padding:1.2rem 0;background:rgba(247,242,245,0.95);backdrop-filter:blur(10px);box-shadow:var(--shadow);}
-        .nav-box{display:flex;justify-content:space-between;align-items:center;position:relative;}
-        .hamburger{display:none;width:40px;height:30px;cursor:pointer;position:relative;z-index:100;}
+        .side-nav{position:fixed;top:0;left:0;width:220px;height:100vh;background:rgba(247,242,245,0.96);backdrop-filter:blur(12px);border-right:1px solid rgba(191,169,184,0.25);display:flex;flex-direction:column;justify-content:space-between;padding:50px 28px;z-index:998;transition:var(--trans);}
+        .brand{font-size:1.35rem;color:var(--ink);letter-spacing:2px;line-height:1.5;}
+        .brand small{display:block;font-size:0.72rem;color:var(--c1);letter-spacing:4px;margin-top:6px;}
+        .nav-list{display:flex;flex-direction:column;gap:6px;margin-top:40px;}
+        .nav-item{color:var(--text);font-size:15px;padding:10px 16px;border-radius:10px;transition:var(--trans);display:flex;align-items:center;gap:12px;position:relative;}
+        .nav-item i{font-size:0.9rem;color:var(--c1);width:18px;text-align:center;transition:var(--trans);}
+        .nav-item::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:0;background:var(--c1);border-radius:3px;transition:var(--trans);}
+        .nav-item:hover,.nav-item.active{background:rgba(191,169,184,0.18);color:var(--ink);padding-left:24px;}
+        .nav-item:hover i,.nav-item.active i{transform:scale(1.15);}
+        .nav-item.active::before{height:60%;}
+        .nav-foot{font-size:0.72rem;color:var(--c1);line-height:1.7;}
+        .nav-foot em{font-style:normal;color:var(--ink);font-size:0.82rem;display:block;margin-bottom:4px;}
+        .main{margin-left:220px;}
+
+        .topbar{display:none;position:fixed;top:0;left:0;width:100%;height:64px;background:rgba(247,242,245,0.95);backdrop-filter:blur(10px);box-shadow:var(--shadow);z-index:997;align-items:center;justify-content:space-between;padding:0 20px;}
+        .topbar .brand-mini{font-size:1.1rem;color:var(--ink);}
+        .hamburger{width:38px;height:30px;cursor:pointer;position:relative;z-index:100;}
         .hamburger span{display:block;width:100%;height:3px;background:var(--text);border-radius:3px;margin:6px 0;transition:var(--trans);}
         .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(6px,6px);}
         .hamburger.active span:nth-child(2){opacity:0;}
         .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px);}
-        .nav-inner{display:flex;gap:2rem;transition:var(--trans);}
-        .nav-item{color:var(--text);text-decoration:none;font-size:16px;padding:8px 20px;border-radius:30px;transition:var(--trans);white-space:nowrap;}
-        .nav-item:hover,.nav-item.active{background:var(--c1);color:#fff;}
+        .overlay{display:none;position:fixed;inset:0;background:rgba(66,50,60,0.4);z-index:996;opacity:0;transition:var(--trans);}
+        .overlay.show{display:block;opacity:1;}
+        @media(max-width:992px){.side-nav{transform:translateX(-100%);width:260px;}.side-nav.show{transform:translateX(0);}.main{margin-left:0;}.topbar{display:flex;}}
 
-        @media (max-width:992px){
-            .hamburger{display:block;}
-            .nav-inner{position:absolute;top:100%;left:0;width:100%;flex-direction:column;background:rgba(255,170,0,1);border-radius:25px;backdrop-filter:blur(10px);padding:20px 0;gap:15px;opacity:0;visibility:hidden;transform:translateY(-10px);}
-            .nav-inner.show{opacity:1;visibility:visible;transform:translateY(0);}
-            .nav-item{text-align:center;width:100%;}
-        }
+        .page-hero{padding:140px 0 70px;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;position:relative;overflow:hidden;}
+        .page-hero-grid{display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:center;}
+        .page-hero-text .hero-num{font-size:0.8rem;letter-spacing:6px;opacity:0.85;margin-bottom:18px;}
+        .page-hero-text h1{font-size:3rem;line-height:1.2;margin-bottom:14px;}
+        .page-hero-text p{font-size:1.05rem;opacity:0.92;max-width:520px;}
+        .page-hero-aside{display:flex;justify-content:flex-end;}
+        .hero-mark{width:140px;height:140px;border:2px solid rgba(255,255,255,0.5);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:3.4rem;font-weight:bold;letter-spacing:2px;background:rgba(255,255,255,0.08);}
+        @media(max-width:768px){.page-hero-grid{grid-template-columns:1fr;}.page-hero-aside{display:none;}.page-hero-text h1{font-size:2.2rem;}}
 
-        .page-header{width:100%;padding:160px 0 80px;background:linear-gradient(135deg,var(--c1),var(--c2));text-align:center;color:#fff;}
-        .page-header h1{font-size:2.8rem;margin-bottom:15px;}
-        .page-header p{font-size:1.1rem;opacity:0.9;}
+        .page-body{padding:80px 0;}
+        .content-card{background:#fff;border-radius:24px;padding:50px 56px;box-shadow:var(--shadow);margin-bottom:36px;}
+        .card-head{display:flex;align-items:baseline;gap:20px;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid rgba(191,169,184,0.3);}
+        .card-num{font-size:0.9rem;color:var(--c1);font-family:monospace;letter-spacing:2px;flex-shrink:0;}
+        .card-head h2{font-size:1.7rem;color:var(--ink);line-height:1.3;}
+        .card-body p{margin-bottom:14px;font-size:16px;}
+        @media(max-width:768px){.content-card{padding:32px 22px;}.card-head{flex-direction:column;gap:6px;}.card-head h2{font-size:1.4rem;}}
 
-        .page-content{padding:80px 0;}
-        .content-card{background:#fff;border-radius:24px;padding:60px;box-shadow:var(--shadow);margin-bottom:40px;}
-        .content-card h2{font-size:1.8rem;color:#6b505e;margin-bottom:25px;padding-bottom:15px;border-bottom:2px solid var(--c1);}
-        .content-card h3{font-size:1.3rem;color:#6b505e;margin:30px 0 15px;}
-        .content-card p{margin-bottom:15px;font-size:16px;}
+        .faq-list{margin-top:8px;}
+        .faq-item{margin-bottom:22px;padding-bottom:22px;border-bottom:1px dashed rgba(191,169,184,0.35);}
+        .faq-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+        .faq-q{font-weight:bold;color:var(--ink);font-size:1.05rem;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px;}
+        .faq-q::before{content:"Q";background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0;margin-top:3px;}
+        .faq-a{color:var(--text);padding-left:38px;line-height:1.9;position:relative;}
+        .faq-a::before{content:"A";position:absolute;left:0;top:2px;color:var(--c1);width:26px;height:26px;border:1px solid var(--c1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;}
 
-        .faq-list{margin-top:30px;}
-        .faq-item{margin-bottom:20px;border-bottom:1px solid rgba(191,169,184,0.2);padding-bottom:20px;}
-        .faq-item:last-child{border-bottom:none;}
-        .faq-q{font-weight:bold;color:#6b505e;font-size:1.1rem;margin-bottom:10px;display:flex;align-items:flex-start;gap:10px;}
-        .faq-q::before{content:"Q";background:var(--c1);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
-        .faq-a{color:var(--text);padding-left:34px;line-height:1.9;}
+        .contact-box{background:linear-gradient(135deg,var(--c1),var(--c2));padding:42px;border-radius:20px;color:#fff;text-align:center;margin-top:36px;}
+        .contact-box h3{font-size:1.5rem;margin-bottom:14px;}
+        .contact-box p{margin-bottom:14px;opacity:0.92;}
+        .contact-box .contact-item{margin:8px 0;font-size:1.05rem;display:flex;align-items:center;justify-content:center;gap:10px;}
+        .contact-box .contact-item i{width:20px;}
 
-        .contact-box{background:linear-gradient(135deg,var(--c1),var(--c2));padding:40px;border-radius:20px;color:#fff;text-align:center;margin-top:40px;}
-        .contact-box h3{font-size:1.5rem;margin-bottom:15px;}
-        .contact-box p{margin-bottom:10px;opacity:0.9;}
-        .contact-box .contact-item{margin:10px 0;font-size:1.1rem;}
-        .contact-box .contact-item i{margin-right:10px;}
-
-        @media(max-width:768px){
-            .content-card{padding:30px 20px;}
-        }
-
-        .footer{width:100%;background:linear-gradient(135deg,var(--c1),var(--c2));padding:60px 0;color:#fff;margin-top:50px;}
-        .footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;}
-        .footer-col h4{font-size:18px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.3);}
-        .footer-col a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;margin:12px 0;transition:var(--trans);display:flex;align-items:center;gap:10px;}
+        .footer{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:60px 0 0;margin-top:60px;}
+        .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.25);}
+        .footer-brand{flex:0 0 280px;}
+        .footer-brand h3{font-size:1.6rem;margin-bottom:10px;}
+        .footer-brand p{font-size:0.85rem;opacity:0.85;line-height:1.8;}
+        .footer-links{display:flex;gap:60px;flex-wrap:wrap;}
+        .footer-col h4{font-size:0.95rem;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.3);letter-spacing:1px;}
+        .footer-col a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.85);margin:10px 0;transition:var(--trans);font-size:0.9rem;}
         .footer-col a i{width:18px;text-align:center;}
-        .footer-col a:hover{color:#fff;padding-left:5px;}
-        .copyright{text-align:center;padding-top:40px;margin-top:40px;border-top:1px solid rgba(255,255,255,0.2);}
-        @media(max-width:1024px){.footer-row{grid-template-columns:repeat(2,1fr);}}
-        @media(max-width:768px){.footer-row{grid-template-columns:1fr;}}
+        .footer-col a:hover{color:#fff;padding-left:6px;}
+        .copyright{text-align:center;padding:24px 0;font-size:0.85rem;opacity:0.9;}
+        @media(max-width:768px){.footer-top{flex-direction:column;}.footer-links{gap:30px;}}
     </style>
 </head>
-<body class="container">
-<header class="top-nav">
-    <div class="wrap nav-box">
-        <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
-        <nav class="nav-inner" id="menu">
-            <a href="index.html" class="nav-item">首页</a>
-            <a href="index.html#service" class="nav-item">服务</a>
-            <a href="index.html#about" class="nav-item">关于</a>
-            <a href="index.html#case" class="nav-item">案例</a>
-            <a href="index.html#skill" class="nav-item">技能</a>
-            <a href="index.html#contact" class="nav-item">联系</a>
+<body>
+
+<div class="topbar">
+    <div class="brand-mini">不见桃花不见秋</div>
+    <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<aside class="side-nav" id="sideNav">
+    <div>
+        <div class="brand">不见桃花不见秋<small>B J T H</small></div>
+        <nav class="nav-list">
+            <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i>首页</a>
+            <a href="index.html#service" class="nav-item"><i class="fa-solid fa-code"></i>服务</a>
+            <a href="index.html#about" class="nav-item"><i class="fa-solid fa-feather"></i>关于</a>
+            <a href="index.html#case" class="nav-item"><i class="fa-solid fa-layer-group"></i>案例</a>
+            <a href="index.html#skill" class="nav-item"><i class="fa-solid fa-gauge-high"></i>技能</a>
+            <a href="index.html#contact" class="nav-item"><i class="fa-solid fa-envelope"></i>联系</a>
         </nav>
     </div>
-</header>
+    <div class="nav-foot"><em>个人信息技术</em>一站式技术服务平台<br>© 2026</div>
+</aside>
 
-<section class="page-header">
-    <div class="wrap">
-        <h1>常见问题</h1>
-        <p>快速解答您的疑惑</p>
+<div class="main">
+
+<section class="page-hero">
+    <div class="wrap page-hero-grid">
+        <div class="page-hero-text">
+            <div class="hero-num">P · 07 / FAQ</div>
+            <h1>常见问题</h1>
+            <p>快速解答您的疑惑</p>
+        </div>
+        <div class="page-hero-aside"><div class="hero-mark">问</div></div>
     </div>
 </section>
 
-<section class="page-content">
+<section class="page-body">
     <div class="wrap">
+
         <div class="content-card">
-            <h2>关于服务</h2>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-q">可以先看看之前的案例吗？</div>
-                    <div class="faq-a">当然可以，您可以在首页的"作品案例"区域查看部分案例展示。如需了解更多案例效果，欢迎联系获取。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">做网站需要多长时间？</div>
-                    <div class="faq-a">具体时间取决于项目复杂度和需求细节。简单页面1-3天，常规网站3-7天，复杂项目1-2周或更长。沟通时会给出明确的时间预估。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">可以先出个设计方案看看吗？</div>
-                    <div class="faq-a">可以根据您的需求先出一个首页效果草稿供参考，确认风格后再深入设计。具体流程可协商。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">项目完成后可以修改吗？</div>
-                    <div class="faq-a">交付后在不影响整体结构的前提下可以进行小幅调整。较大改动可能需要额外费用，具体以协商为准。</div>
+            <div class="card-head"><span class="card-num">01</span><h2>关于服务</h2></div>
+            <div class="card-body">
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-q">可以先看看之前的案例吗？</div>
+                        <div class="faq-a">当然可以，您可以在首页的"作品案例"区域查看部分案例展示。如需了解更多案例效果，欢迎联系获取。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">做网站需要多长时间？</div>
+                        <div class="faq-a">具体时间取决于项目复杂度和需求细节。简单页面1-3天，常规网站3-7天，复杂项目1-2周或更长。沟通时会给出明确的时间预估。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">可以先出个设计方案看看吗？</div>
+                        <div class="faq-a">可以根据您的需求先出一个首页效果草稿供参考，确认风格后再深入设计。具体流程可协商。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">项目完成后可以修改吗？</div>
+                        <div class="faq-a">交付后在不影响整体结构的前提下可以进行小幅调整。较大改动可能需要额外费用，具体以协商为准。</div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="content-card">
-            <h2>关于技术</h2>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-q">网站做好后怎么上线？</div>
-                    <div class="faq-a">可以选择自己部署或让我协助部署。可以部署到GitHub Pages、Netlify等免费平台，也可以部署到您购买的服务器上。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">网站需要购买服务器吗？</div>
-                    <div class="faq-a">不一定。简单的静态网站可以使用免费的托管平台。如果需要动态功能或自定义域名，则需要购买服务器或虚拟主机。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">网站可以在手机上看吗？</div>
-                    <div class="faq-a">是的，所有制作的网站都会进行响应式设计，完美适配手机、平板、电脑等不同设备。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">后续需要续费吗？</div>
-                    <div class="faq-a">网站本身一次付费永久使用。托管在免费平台则无需续费；如使用付费服务器则需自行续费服务器。域名年费需自行承担。</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-card">
-            <h2>关于付款</h2>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-q">如何付款？</div>
-                    <div class="faq-a">支持支付宝、微信、QQ转账等方式。常规项目可分阶段付款：定金50%，交付后付清尾款。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">可以开发票吗？</div>
-                    <div class="faq-a">个人运营，暂不支持发票。如需报销凭证可提供收据。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">不满意可以退款吗？</div>
-                    <div class="faq-a">会充分沟通需求后再开始工作，通常不会产生不满意的情况。如确有分歧，可协商部分退款。</div>
+            <div class="card-head"><span class="card-num">02</span><h2>关于技术</h2></div>
+            <div class="card-body">
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-q">网站做好后怎么上线？</div>
+                        <div class="faq-a">可以选择自己部署或让我协助部署。可以部署到GitHub Pages、Netlify等免费平台，也可以部署到您购买的服务器上。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">网站需要购买服务器吗？</div>
+                        <div class="faq-a">不一定。简单的静态网站可以使用免费的托管平台。如果需要动态功能或自定义域名，则需要购买服务器或虚拟主机。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">网站可以在手机上看吗？</div>
+                        <div class="faq-a">是的，所有制作的网站都会进行响应式设计，完美适配手机、平板、电脑等不同设备。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">后续需要续费吗？</div>
+                        <div class="faq-a">网站本身一次付费永久使用。托管在免费平台则无需续费；如使用付费服务器则需自行续费服务器。域名年费需自行承担。</div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="content-card">
-            <h2>其他问题</h2>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-q">只做一部分页面可以吗？</div>
-                    <div class="faq-a">可以。支持只做首页、只做某个单页面等部分服务，根据工作量定价。</div>
+            <div class="card-head"><span class="card-num">03</span><h2>关于付款</h2></div>
+            <div class="card-body">
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-q">如何付款？</div>
+                        <div class="faq-a">支持支付宝、微信、QQ转账等方式。常规项目可分阶段付款：定金50%，交付后付清尾款。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">可以开发票吗？</div>
+                        <div class="faq-a">个人运营，暂不支持发票。如需报销凭证可提供收据。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">不满意可以退款吗？</div>
+                        <div class="faq-a">会充分沟通需求后再开始工作，通常不会产生不满意的情况。如确有分歧，可协商部分退款。</div>
+                    </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-q">可以提供源码吗？</div>
-                    <div class="faq-a">当然。项目完成后会交付全部源码，您可以自由使用和修改。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">遇到问题还能咨询吗？</div>
-                    <div class="faq-a">项目交付后会继续提供一定期限的技术支持。有问题随时联系，会尽力协助解决。</div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <div class="card-head"><span class="card-num">04</span><h2>其他问题</h2></div>
+            <div class="card-body">
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-q">只做一部分页面可以吗？</div>
+                        <div class="faq-a">可以。支持只做首页、只做某个单页面等部分服务，根据工作量定价。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">可以提供源码吗？</div>
+                        <div class="faq-a">当然。项目完成后会交付全部源码，您可以自由使用和修改。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">遇到问题还能咨询吗？</div>
+                        <div class="faq-a">项目交付后会继续提供一定期限的技术支持。有问题随时联系，会尽力协助解决。</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -187,26 +216,35 @@
             <div class="contact-item"><i class="fa-brands fa-weixin"></i> ALCY-ALCY</div>
             <div class="contact-item"><i class="fa-brands fa-qq"></i> 1837601513</div>
         </div>
+
     </div>
 </section>
 
 <footer class="footer">
-    <div class="wrap footer-row">
-        <div class="footer-col"><h4>关于本站</h4><a href="about.html">平台介绍</a><a href="philosophy.html">服务理念</a><a href="history.html">发展历程</a></div>
-        <div class="footer-col"><h4>业务服务</h4><a href="web-custom.html">网页定制</a><a href="ops.html">运维部署</a><a href="debug.html">技术调试</a></div>
-        <div class="footer-col"><h4>帮助中心</h4><a href="faq.html">常见问题</a><a href="process.html">服务流程</a><a href="pricing.html">收费说明</a></div>
-        <div class="footer-col"><h4>联系方式</h4><a href="consult.html"><i class="fa-brands fa-qq"></i> 在线咨询</a><a href="message.html"><i class="fa-brands fa-weixin"></i> 私信沟通</a><a href="docking.html"><i class="fa-solid fa-message"></i> 技术对接</a></div>
+    <div class="wrap">
+        <div class="footer-top">
+            <div class="footer-brand"><h3>不见桃花不见秋</h3><p>个人信息技术 · 一站式技术服务平台<br>专注网页开发、运维部署与故障调试</p></div>
+            <div class="footer-links">
+                <div class="footer-col"><h4>关于本站</h4><a href="about.html"><i class="fa-solid fa-leaf"></i>平台介绍</a><a href="philosophy.html"><i class="fa-solid fa-heart"></i>服务理念</a><a href="history.html"><i class="fa-solid fa-clock-rotate-left"></i>发展历程</a></div>
+                <div class="footer-col"><h4>业务服务</h4><a href="web-custom.html"><i class="fa-solid fa-code"></i>网页定制</a><a href="ops.html"><i class="fa-solid fa-server"></i>运维部署</a><a href="debug.html"><i class="fa-solid fa-wrench"></i>技术调试</a></div>
+                <div class="footer-col"><h4>帮助中心</h4><a href="faq.html"><i class="fa-solid fa-circle-question"></i>常见问题</a><a href="process.html"><i class="fa-solid fa-list-check"></i>服务流程</a><a href="pricing.html"><i class="fa-solid fa-tags"></i>收费说明</a></div>
+                <div class="footer-col"><h4>联系方式</h4><a href="consult.html"><i class="fa-brands fa-qq"></i>在线咨询</a><a href="message.html"><i class="fa-brands fa-weixin"></i>私信沟通</a><a href="docking.html"><i class="fa-solid fa-message"></i>技术对接</a></div>
+            </div>
+        </div>
+        <div class="copyright">不见桃花不见秋 © 2026 个人信息技术 版权所有</div>
     </div>
-    <div class="copyright wrap">不见桃花不见秋 © 2026 个人信息技术 版权所有</div>
 </footer>
+
+</div>
 
 <script>
 const ham = document.getElementById('ham');
-const menu = document.getElementById('menu');
-ham.onclick = ()=>{ham.classList.toggle('active');menu.classList.toggle('show');}
-document.querySelectorAll('.nav-item').forEach(item=>{
-    item.onclick = ()=>{ham.classList.remove('active');menu.classList.remove('show');}
-})
+const sideNav = document.getElementById('sideNav');
+const overlay = document.getElementById('overlay');
+function toggleMenu(open){ham.classList.toggle('active',open);sideNav.classList.toggle('show',open);overlay.classList.toggle('show',open);}
+ham.onclick = ()=>toggleMenu(!sideNav.classList.contains('show'));
+overlay.onclick = ()=>toggleMenu(false);
+document.querySelectorAll('.nav-item').forEach(item=>{item.onclick = ()=>toggleMenu(false);})
 </script>
 </body>
 </html>

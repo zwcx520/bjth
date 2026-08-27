@@ -6,132 +6,152 @@
     <title>在线咨询 - 不见桃花不见秋</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        a{text-decoration:none;}
         *{margin:0;padding:0;box-sizing:border-box;font-family:"思源宋体",serif;scroll-behavior:smooth;}
-        :root{
-            --c1:#bfa9b8;
-            --c2:#b0a2c2;
-            --bg:#f7f2f5;
-            --text:#42323c;
-            --light:#fff;
-            --shadow:0 8px 30px rgba(191,169,184,0.15);
-            --trans:all 0.4s cubic-bezier(0.25,0.8,0.25,1);
-        }
+        :root{--c1:#bfa9b8;--c2:#b0a2c2;--bg:#f7f2f5;--text:#42323c;--ink:#6b505e;--light:#fff;--shadow:0 8px 30px rgba(191,169,184,0.18);--trans:all 0.4s cubic-bezier(0.25,0.8,0.25,1);}
         body{background:var(--bg);color:var(--text);line-height:1.8;letter-spacing:1px;overflow-x:hidden;}
-        .container{width:100%;max-width:1920px;margin:0 auto;}
         .wrap{width:90%;max-width:1400px;margin:0 auto;}
 
-        .top-nav{width:100%;position:fixed;top:0;left:0;z-index:999;transition:var(--trans);padding:1.2rem 0;background:rgba(247,242,245,0.95);backdrop-filter:blur(10px);box-shadow:var(--shadow);}
-        .nav-box{display:flex;justify-content:space-between;align-items:center;position:relative;}
-        .hamburger{display:none;width:40px;height:30px;cursor:pointer;position:relative;z-index:100;}
+        .side-nav{position:fixed;top:0;left:0;width:220px;height:100vh;background:rgba(247,242,245,0.96);backdrop-filter:blur(12px);border-right:1px solid rgba(191,169,184,0.25);display:flex;flex-direction:column;justify-content:space-between;padding:50px 28px;z-index:998;transition:var(--trans);}
+        .brand{font-size:1.35rem;color:var(--ink);letter-spacing:2px;line-height:1.5;}
+        .brand small{display:block;font-size:0.72rem;color:var(--c1);letter-spacing:4px;margin-top:6px;}
+        .nav-list{display:flex;flex-direction:column;gap:6px;margin-top:40px;}
+        .nav-item{color:var(--text);font-size:15px;padding:10px 16px;border-radius:10px;transition:var(--trans);display:flex;align-items:center;gap:12px;position:relative;}
+        .nav-item i{font-size:0.9rem;color:var(--c1);width:18px;text-align:center;transition:var(--trans);}
+        .nav-item::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:0;background:var(--c1);border-radius:3px;transition:var(--trans);}
+        .nav-item:hover,.nav-item.active{background:rgba(191,169,184,0.18);color:var(--ink);padding-left:24px;}
+        .nav-item:hover i,.nav-item.active i{transform:scale(1.15);}
+        .nav-item.active::before{height:60%;}
+        .nav-foot{font-size:0.72rem;color:var(--c1);line-height:1.7;}
+        .nav-foot em{font-style:normal;color:var(--ink);font-size:0.82rem;display:block;margin-bottom:4px;}
+        .main{margin-left:220px;}
+
+        .topbar{display:none;position:fixed;top:0;left:0;width:100%;height:64px;background:rgba(247,242,245,0.95);backdrop-filter:blur(10px);box-shadow:var(--shadow);z-index:997;align-items:center;justify-content:space-between;padding:0 20px;}
+        .topbar .brand-mini{font-size:1.1rem;color:var(--ink);}
+        .hamburger{width:38px;height:30px;cursor:pointer;position:relative;z-index:100;}
         .hamburger span{display:block;width:100%;height:3px;background:var(--text);border-radius:3px;margin:6px 0;transition:var(--trans);}
         .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(6px,6px);}
         .hamburger.active span:nth-child(2){opacity:0;}
         .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px);}
-        .nav-inner{display:flex;gap:2rem;transition:var(--trans);}
-        .nav-item{color:var(--text);text-decoration:none;font-size:16px;padding:8px 20px;border-radius:30px;transition:var(--trans);white-space:nowrap;}
-        .nav-item:hover,.nav-item.active{background:var(--c1);color:#fff;}
+        .overlay{display:none;position:fixed;inset:0;background:rgba(66,50,60,0.4);z-index:996;opacity:0;transition:var(--trans);}
+        .overlay.show{display:block;opacity:1;}
+        @media(max-width:992px){.side-nav{transform:translateX(-100%);width:260px;}.side-nav.show{transform:translateX(0);}.main{margin-left:0;}.topbar{display:flex;}}
 
-        @media (max-width:992px){
-            .hamburger{display:block;}
-            .nav-inner{position:absolute;top:100%;left:0;width:100%;flex-direction:column;background:rgba(255,170,0,1);border-radius:25px;backdrop-filter:blur(10px);padding:20px 0;gap:15px;opacity:0;visibility:hidden;transform:translateY(-10px);}
-            .nav-inner.show{opacity:1;visibility:visible;transform:translateY(0);}
-            .nav-item{text-align:center;width:100%;}
-        }
+        .page-hero{padding:140px 0 70px;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;position:relative;overflow:hidden;}
+        .page-hero-grid{display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:center;}
+        .page-hero-text .hero-num{font-size:0.8rem;letter-spacing:6px;opacity:0.85;margin-bottom:18px;}
+        .page-hero-text h1{font-size:3rem;line-height:1.2;margin-bottom:14px;}
+        .page-hero-text p{font-size:1.05rem;opacity:0.92;max-width:520px;}
+        .page-hero-aside{display:flex;justify-content:flex-end;}
+        .hero-mark{width:140px;height:140px;border:2px solid rgba(255,255,255,0.5);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:3.4rem;font-weight:bold;letter-spacing:2px;background:rgba(255,255,255,0.08);}
+        @media(max-width:768px){.page-hero-grid{grid-template-columns:1fr;}.page-hero-aside{display:none;}.page-hero-text h1{font-size:2.2rem;}}
 
-        .page-header{width:100%;padding:160px 0 80px;background:linear-gradient(135deg,var(--c1),var(--c2));text-align:center;color:#fff;}
-        .page-header h1{font-size:2.8rem;margin-bottom:15px;}
-        .page-header p{font-size:1.1rem;opacity:0.9;}
+        .page-body{padding:80px 0;}
+        .content-card{background:#fff;border-radius:24px;padding:50px 56px;box-shadow:var(--shadow);margin-bottom:36px;}
+        .card-head{display:flex;align-items:baseline;gap:20px;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid rgba(191,169,184,0.3);}
+        .card-num{font-size:0.9rem;color:var(--c1);font-family:monospace;letter-spacing:2px;flex-shrink:0;}
+        .card-head h2{font-size:1.7rem;color:var(--ink);line-height:1.3;}
+        .card-body p{margin-bottom:14px;font-size:16px;}
+        @media(max-width:768px){.content-card{padding:32px 22px;}.card-head{flex-direction:column;gap:6px;}.card-head h2{font-size:1.4rem;}}
 
-        .page-content{padding:80px 0;}
-        .content-card{background:#fff;border-radius:24px;padding:60px;box-shadow:var(--shadow);margin-bottom:40px;}
-        .content-card h2{font-size:1.8rem;color:#6b505e;margin-bottom:25px;padding-bottom:15px;border-bottom:2px solid var(--c1);}
-        .content-card p{margin-bottom:15px;font-size:16px;}
-
-        .contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:30px;margin-top:30px;}
-        .contact-card{background:linear-gradient(135deg,#f7f2f5,#fff);padding:35px;border-radius:20px;text-align:center;transition:var(--trans);}
+        .contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:24px;}
+        .contact-card{background:linear-gradient(135deg,#f7f2f5,#fff);padding:36px 30px;border-radius:20px;text-align:center;transition:var(--trans);border:1px solid rgba(191,169,184,0.15);}
         .contact-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);}
-        .contact-card i{font-size:3rem;color:var(--c1);margin-bottom:20px;}
-        .contact-card h3{font-size:1.3rem;color:#6b505e;margin-bottom:10px;}
-        .contact-card .account{font-size:1.1rem;color:var(--text);margin-bottom:15px;}
-        .contact-card .action{display:inline-block;padding:10px 25px;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;border-radius:25px;text-decoration:none;transition:var(--trans);}
+        .contact-card i{font-size:2.8rem;color:var(--c1);margin-bottom:18px;display:block;}
+        .contact-card h3{font-size:1.3rem;color:var(--ink);margin-bottom:10px;}
+        .contact-card .account{font-size:1.05rem;color:var(--text);margin-bottom:18px;}
+        .contact-card .action{display:inline-flex;align-items:center;gap:8px;padding:10px 26px;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;border-radius:25px;transition:var(--trans);font-size:14px;}
         .contact-card .action:hover{transform:scale(1.05);box-shadow:0 5px 20px rgba(191,169,184,0.3);}
+        @media(max-width:600px){.contact-grid{grid-template-columns:1fr;}}
 
-        .tips-box{background:linear-gradient(135deg,var(--c1),var(--c2));padding:35px;border-radius:20px;color:#fff;margin-top:30px;}
-        .tips-box h3{font-size:1.3rem;margin-bottom:15px;}
-        .tips-box ul{margin:0;padding-left:20px;}
-        .tips-box li{margin-bottom:10px;opacity:0.95;}
+        .tips-box{background:linear-gradient(135deg,var(--c1),var(--c2));padding:36px 40px;border-radius:20px;color:#fff;margin-top:36px;}
+        .tips-box h3{font-size:1.3rem;margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+        .tips-box h3 i{font-size:1.4rem;}
+        .tips-box ul{margin:0;padding-left:20px;list-style:none;}
+        .tips-box li{margin-bottom:10px;opacity:0.95;padding-left:18px;position:relative;}
+        .tips-box li::before{content:"•";position:absolute;left:0;}
 
-        .response-time{text-align:center;padding:40px;background:#fff;border-radius:24px;box-shadow:var(--shadow);margin-top:30px;}
-        .response-time i{font-size:2.5rem;color:var(--c1);margin-bottom:15px;}
-        .response-time h3{font-size:1.5rem;color:#6b505e;margin-bottom:10px;}
-        .response-time p{color:var(--text);font-size:1.1rem;}
+        .response-time{text-align:center;padding:40px;background:#fff;border-radius:24px;box-shadow:var(--shadow);margin-top:36px;}
+        .response-time i{font-size:2.5rem;color:var(--c1);margin-bottom:14px;display:block;}
+        .response-time h3{font-size:1.5rem;color:var(--ink);margin-bottom:10px;}
+        .response-time p{color:var(--text);font-size:1.05rem;line-height:2;}
 
-        @media(max-width:768px){
-            .contact-grid{grid-template-columns:1fr;}
-            .content-card{padding:30px 20px;}
-        }
-
-        .footer{width:100%;background:linear-gradient(135deg,var(--c1),var(--c2));padding:60px 0;color:#fff;margin-top:50px;}
-        .footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;}
-        .footer-col h4{font-size:18px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.3);}
-        .footer-col a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;margin:12px 0;transition:var(--trans);display:flex;align-items:center;gap:10px;}
+        .footer{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:60px 0 0;margin-top:60px;}
+        .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.25);}
+        .footer-brand{flex:0 0 280px;}
+        .footer-brand h3{font-size:1.6rem;margin-bottom:10px;}
+        .footer-brand p{font-size:0.85rem;opacity:0.85;line-height:1.8;}
+        .footer-links{display:flex;gap:60px;flex-wrap:wrap;}
+        .footer-col h4{font-size:0.95rem;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.3);letter-spacing:1px;}
+        .footer-col a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.85);margin:10px 0;transition:var(--trans);font-size:0.9rem;}
         .footer-col a i{width:18px;text-align:center;}
-        .footer-col a:hover{color:#fff;padding-left:5px;}
-        .copyright{text-align:center;padding-top:40px;margin-top:40px;border-top:1px solid rgba(255,255,255,0.2);}
-        @media(max-width:1024px){.footer-row{grid-template-columns:repeat(2,1fr);}}
-        @media(max-width:768px){.footer-row{grid-template-columns:1fr;}}
+        .footer-col a:hover{color:#fff;padding-left:6px;}
+        .copyright{text-align:center;padding:24px 0;font-size:0.85rem;opacity:0.9;}
+        @media(max-width:768px){.footer-top{flex-direction:column;}.footer-links{gap:30px;}}
     </style>
 </head>
-<body class="container">
-<header class="top-nav">
-    <div class="wrap nav-box">
-        <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
-        <nav class="nav-inner" id="menu">
-            <a href="index.html" class="nav-item">首页</a>
-            <a href="index.html#service" class="nav-item">服务</a>
-            <a href="index.html#about" class="nav-item">关于</a>
-            <a href="index.html#case" class="nav-item">案例</a>
-            <a href="index.html#skill" class="nav-item">技能</a>
-            <a href="index.html#contact" class="nav-item">联系</a>
+<body>
+
+<div class="topbar">
+    <div class="brand-mini">不见桃花不见秋</div>
+    <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<aside class="side-nav" id="sideNav">
+    <div>
+        <div class="brand">不见桃花不见秋<small>B J T H</small></div>
+        <nav class="nav-list">
+            <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i>首页</a>
+            <a href="index.html#service" class="nav-item"><i class="fa-solid fa-code"></i>服务</a>
+            <a href="index.html#about" class="nav-item"><i class="fa-solid fa-feather"></i>关于</a>
+            <a href="index.html#case" class="nav-item"><i class="fa-solid fa-layer-group"></i>案例</a>
+            <a href="index.html#skill" class="nav-item"><i class="fa-solid fa-gauge-high"></i>技能</a>
+            <a href="index.html#contact" class="nav-item"><i class="fa-solid fa-envelope"></i>联系</a>
         </nav>
     </div>
-</header>
+    <div class="nav-foot"><em>个人信息技术</em>一站式技术服务平台<br>© 2026</div>
+</aside>
 
-<section class="page-header">
-    <div class="wrap">
-        <h1>在线咨询</h1>
-        <p>随时在线，欢迎咨询</p>
+<div class="main">
+
+<section class="page-hero">
+    <div class="wrap page-hero-grid">
+        <div class="page-hero-text">
+            <div class="hero-num">P · 10 / CONSULT</div>
+            <h1>在线咨询</h1>
+            <p>随时在线，欢迎咨询</p>
+        </div>
+        <div class="page-hero-aside"><div class="hero-mark">咨</div></div>
     </div>
 </section>
 
-<section class="page-content">
+<section class="page-body">
     <div class="wrap">
+
         <div class="content-card">
-            <h2>在线咨询方式</h2>
-            <p>点击下方按钮直接联系，开启对话更加便捷。白天通常在1-2小时内回复，晚上可能在12小时内回复，请耐心等待。</p>
-            
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <i class="fa-brands fa-qq"></i>
-                    <h3>QQ 在线咨询</h3>
-                    <p class="account">QQ：1837601513</p>
-                    <a href="https://wpa.qq.com/msgrd?v=3&uin=1837601513&site=qq&menu=yes" target="_blank" class="action">
-                        <i class="fa-solid fa-comment"></i> 点击咨询
-                    </a>
-                </div>
-                <div class="contact-card">
-                    <i class="fa-brands fa-weixin"></i>
-                    <h3>微信咨询</h3>
-                    <p class="account">微信：ALCY-ALCY</p>
-                    <a href="#" class="action" onclick="alert('请添加微信号：ALCY-ALCY')">
-                        <i class="fa-solid fa-plus"></i> 添加好友
-                    </a>
+            <div class="card-head"><span class="card-num">01</span><h2>在线咨询方式</h2></div>
+            <div class="card-body">
+                <p>点击下方按钮直接联系，开启对话更加便捷。白天通常在1-2小时内回复，晚上可能在12小时内回复，请耐心等待。</p>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <i class="fa-brands fa-qq"></i>
+                        <h3>QQ 在线咨询</h3>
+                        <p class="account">QQ：1837601513</p>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=1837601513&site=qq&menu=yes" target="_blank" class="action"><i class="fa-solid fa-comment"></i> 点击咨询</a>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fa-brands fa-weixin"></i>
+                        <h3>微信咨询</h3>
+                        <p class="account">微信：ALCY-ALCY</p>
+                        <a href="#" class="action" onclick="alert('请添加微信号：ALCY-ALCY')"><i class="fa-solid fa-plus"></i> 添加好友</a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="tips-box">
-            <h3>咨询小提示</h3>
+            <h3><i class="fa-solid fa-lightbulb"></i>咨询小提示</h3>
             <ul>
                 <li>请简单描述您的需求或遇到的问题</li>
                 <li>如果是技术问题，可以附上错误截图或代码片段</li>
@@ -146,26 +166,35 @@
             <h3>响应时间</h3>
             <p>白天：通常 1-2 小时内回复<br>夜间：12 小时内回复<br>急事可电话联系说明</p>
         </div>
+
     </div>
 </section>
 
 <footer class="footer">
-    <div class="wrap footer-row">
-        <div class="footer-col"><h4>关于本站</h4><a href="about.html">平台介绍</a><a href="philosophy.html">服务理念</a><a href="history.html">发展历程</a></div>
-        <div class="footer-col"><h4>业务服务</h4><a href="web-custom.html">网页定制</a><a href="ops.html">运维部署</a><a href="debug.html">技术调试</a></div>
-        <div class="footer-col"><h4>帮助中心</h4><a href="faq.html">常见问题</a><a href="process.html">服务流程</a><a href="pricing.html">收费说明</a></div>
-        <div class="footer-col"><h4>联系方式</h4><a href="consult.html"><i class="fa-brands fa-qq"></i> 在线咨询</a><a href="message.html"><i class="fa-brands fa-weixin"></i> 私信沟通</a><a href="docking.html"><i class="fa-solid fa-message"></i> 技术对接</a></div>
+    <div class="wrap">
+        <div class="footer-top">
+            <div class="footer-brand"><h3>不见桃花不见秋</h3><p>个人信息技术 · 一站式技术服务平台<br>专注网页开发、运维部署与故障调试</p></div>
+            <div class="footer-links">
+                <div class="footer-col"><h4>关于本站</h4><a href="about.html"><i class="fa-solid fa-leaf"></i>平台介绍</a><a href="philosophy.html"><i class="fa-solid fa-heart"></i>服务理念</a><a href="history.html"><i class="fa-solid fa-clock-rotate-left"></i>发展历程</a></div>
+                <div class="footer-col"><h4>业务服务</h4><a href="web-custom.html"><i class="fa-solid fa-code"></i>网页定制</a><a href="ops.html"><i class="fa-solid fa-server"></i>运维部署</a><a href="debug.html"><i class="fa-solid fa-wrench"></i>技术调试</a></div>
+                <div class="footer-col"><h4>帮助中心</h4><a href="faq.html"><i class="fa-solid fa-circle-question"></i>常见问题</a><a href="process.html"><i class="fa-solid fa-list-check"></i>服务流程</a><a href="pricing.html"><i class="fa-solid fa-tags"></i>收费说明</a></div>
+                <div class="footer-col"><h4>联系方式</h4><a href="consult.html"><i class="fa-brands fa-qq"></i>在线咨询</a><a href="message.html"><i class="fa-brands fa-weixin"></i>私信沟通</a><a href="docking.html"><i class="fa-solid fa-message"></i>技术对接</a></div>
+            </div>
+        </div>
+        <div class="copyright">不见桃花不见秋 © 2026 个人信息技术 版权所有</div>
     </div>
-    <div class="copyright wrap">不见桃花不见秋 © 2026 个人信息技术 版权所有</div>
 </footer>
+
+</div>
 
 <script>
 const ham = document.getElementById('ham');
-const menu = document.getElementById('menu');
-ham.onclick = ()=>{ham.classList.toggle('active');menu.classList.toggle('show');}
-document.querySelectorAll('.nav-item').forEach(item=>{
-    item.onclick = ()=>{ham.classList.remove('active');menu.classList.remove('show');}
-})
+const sideNav = document.getElementById('sideNav');
+const overlay = document.getElementById('overlay');
+function toggleMenu(open){ham.classList.toggle('active',open);sideNav.classList.toggle('show',open);overlay.classList.toggle('show',open);}
+ham.onclick = ()=>toggleMenu(!sideNav.classList.contains('show'));
+overlay.onclick = ()=>toggleMenu(false);
+document.querySelectorAll('.nav-item').forEach(item=>{item.onclick = ()=>toggleMenu(false);})
 </script>
 </body>
 </html>
