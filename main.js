@@ -1,6 +1,6 @@
 const pageData = {
       nav: {
-        title: '个人网页作品站'
+        title: '个人WEB作品站'
       },
       cover: {
         imageUrl: 'https://picsum.photos/800/80',
