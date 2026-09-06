@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>不见桃花不见秋-个人作品站 - 网页前端设计</title>
+  
+  <!-- Tailwind CSS 框架引入：用于快速构建响应式UI和工具类样式 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="main.js"></script>
+  <!-- Google 字体库引入：使用中文字体 Noto Serif SC 和 Noto Sans SC -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- RemixIcon 图标库引入：提供界面中使用的各种矢量图标 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css">
+  
+  <!-- Tailwind 自定义配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            // 自定义甜系色板，供整个页面调用
+            sweet: {
+              50: '#FFF9FA', 100: '#FFEef2', 200: '#FFD6E0', 300: '#FFB3C6',
+              400: '#FF8FAB', 500: '#E84393', 800: '#5A4F4B', 900: '#3A3230',
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans SC"', 'sans-serif'], // 无衬线字体
+            serif: ['"Noto Serif SC"', 'serif'],     // 衬线字体
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    /* 全局基础样式：甜系渐变背景和默认字体 */
+    body { 
+      background: linear-gradient(135deg, #FFEef2 0%, #F3E8FF 100%);
+      font-family: '"Noto Sans SC"', sans-serif;
+    }
+    /* 隐藏滚动条但保持可滚动 */
+    ::-webkit-scrollbar { display: none; }
+    /* 移动端模拟容器：限制最大宽度并居中，增加阴影和圆润感 */
+    .app-wrapper {
+      max-width: 430px; margin: 0 auto; background: #FFF9FA; min-height: 100vh;
+      box-shadow: 0 0 40px rgba(255, 143, 171, 0.2);
+      position: relative; overflow-x: hidden;
+    }
+    /* 图片淡入动画 */
+    .img-fade { animation: fadeIn 0.5s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    /* 底部安全区适配（针对刘海屏手机） */
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 20px); }
+
+    /* ========== 新增：波浪加载动画样式 ========== */
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.4); }
+      50% { transform: scaleY(1); }
+    }
+    .animate-wave {
+      animation: wave 1.2s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+    .loading-fade-out {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    /* ========== 新增结束 ========== */
+  </style>
+</head>
+
+<body class="text-sweet-800 antialiased">
+  <div class="app-wrapper">
+    
+    <!-- ==================== 位置1：顶部导航栏 ==================== -->
+    <header class="fixed top-0 w-full max-w-[430px] z-50 bg-white/80 backdrop-blur-md border-b border-sweet-100">
+      <div id="header-content" class="flex items-center justify-between px-5 h-14">
+        <!-- JS 动态插入：标题和搜索框将在这里生成 -->
+      </div>
+    </header>
+
+    <!-- ==================== 位置2：主体滚动区 ==================== -->
+    <main class="pt-14 pb-20">
+      
+      <!-- 位置2.1：背景封面 -->
+      <div id="cover-container" class="h-32 w-full overflow-hidden"></div>
+
+      <!-- 位置2.2：个人信息卡片 -->
+      <section class="px-5 relative">
+        <div id="profile-container"></div>
+      </section>
+
+      <!-- 位置2.3：内容分类 Tabs -->
+      <section class="mt-6 border-b border-sweet-100">
+        <div id="tabs-container" class="flex px-5 gap-8"></div>
+      </section>
+
+      <!-- 位置2.4：作品网格 -->
+      <section id="posts-container" class="p-3 grid grid-cols-2 gap-3"></section>
+      
+    </main>
+    
+  </div>
+
+  <!-- ========== 新增：波浪加载动画遮罩（屏幕正中间） ========== -->
+  <div id="loading-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-white/95 backdrop-blur-sm">
+    <div class="flex items-end gap-1.5 h-12">
+      <div class="w-2 bg-sweet-300 rounded-full animate-wave" style="height: 14px; animation-delay: 0s;"></div>
+      <div class="w-2 bg-sweet-400 rounded-full animate-wave" style="height: 28px; animation-delay: 0.15s;"></div>
+      <div class="w-2 bg-sweet-500 rounded-full animate-wave" style="height: 40px; animation-delay: 0.3s;"></div>
+      <div class="w-2 bg-sweet-400 rounded-full animate-wave" style="height: 28px; animation-delay: 0.45s;"></div>
+      <div class="w-2 bg-sweet-300 rounded-full animate-wave" style="height: 14px; animation-delay: 0.6s;"></div>
+    </div>
+  </div>
+  <!-- ========== 新增结束 ========== -->
+
+  <!-- ==================== 动态数据 & 渲染逻辑 ==================== -->
+  <script>
+    // ========== 新增：3秒后隐藏加载动画 ==========
+      setTimeout(() => {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.classList.add('loading-fade-out');
+          setTimeout(() => overlay.remove(), 400);
+        }
+      }, 3000);
+      // ========== 新增结束 ==========
+  </script>
+</body>
+</html>
