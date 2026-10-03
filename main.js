@@ -26,6 +26,13 @@ const pageData = {
         { name: '赞过', count:0 , active: false }
       ],
       posts: [
+      {
+          link: 'https://qilingtb.netlify.app/',
+          imageUrl: 'https://picsum.photos/400?random=6',
+          title: '起灵贴吧CMS系统',
+          likes: '0',
+          isLiked: false
+        },
         {
           link: 'https://jxcms.netlify.app/',
           imageUrl: 'https://picsum.photos/400?random=5',
