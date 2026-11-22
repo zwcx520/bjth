@@ -28,7 +28,7 @@ const pageData = {
       posts: [
       {
           link: 'https://mywg.netlify.app/',
-          imageUrl: 'https://picsum.photos/400?random=6',
+          imageUrl: 'https://picsum.photos/400?random=8',
           title: '墨韵文阁网文CMS系统平台',
           likes: '0',
           isLiked: false
