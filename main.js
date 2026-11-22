@@ -27,6 +27,20 @@ const pageData = {
       ],
       posts: [
       {
+          link: 'https://mywg.netlify.app/',
+          imageUrl: 'https://picsum.photos/400?random=6',
+          title: '墨韵文阁网文CMS系统平台',
+          likes: '0',
+          isLiked: false
+        },
+{
+          link: 'https://qkxt.netlify.app/',
+          imageUrl: 'https://picsum.photos/400?random=7',
+          title: '甜音曲库系统',
+          likes: '0',
+          isLiked: false
+        },
+      {
           link: 'https://qilingtb.netlify.app/',
           imageUrl: 'https://picsum.photos/400?random=6',
           title: '起灵贴吧CMS系统',
